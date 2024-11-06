@@ -39,14 +39,13 @@ public class PhongTroController extends HttpServlet {
     }
 
     private void showAddForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/phongtro/add.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/add.jsp").forward(request, response);
     }
 
     private void listPhongTro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tenPhongTro = request.getParameter("tenPhongTro");
         String soDienThoai = request.getParameter("soDienThoai");
 
-        // Handle id being optional, return null if not present
         Integer id = null;
         try {
             if (request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
@@ -58,7 +57,7 @@ public class PhongTroController extends HttpServlet {
         List<PhongTro> phongTroList = phongTroService.findByIdOrTenPhongTroContainingOrSoDienThoaiContaining(id, tenPhongTro, soDienThoai);
 
         request.setAttribute("phongTroList", phongTroList);
-        request.getRequestDispatcher("/phongtro/list.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/list.jsp").forward(request, response);
     }
 
     private void viewPhongTro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +66,7 @@ public class PhongTroController extends HttpServlet {
         phongTroService.findById(id).ifPresent(phongTro -> {
             request.setAttribute("phongTro", phongTro);
             try {
-                request.getRequestDispatcher("/phongtro/view.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/view.jsp").forward(request, response);
             } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
@@ -100,7 +99,7 @@ public class PhongTroController extends HttpServlet {
 
         if (tenPhongTro == null || soDienThoai == null || ngayBatDauStr == null || hinhThucThanhToan == null) {
             request.setAttribute("error", "All fields are required!");
-            request.getRequestDispatcher("/phongtro/add.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/add.jsp").forward(request, response);
             return;
         }
 
